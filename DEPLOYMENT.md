@@ -107,7 +107,7 @@ git push -u origin main
 ✓ Deployment ready
 ```
 
-배포 URL: `https://your-project-name.vercel.app`
+배포 URL: `https://saju-automation-251126.vercel.app`
 
 ## 3. 배포 후 검증
 

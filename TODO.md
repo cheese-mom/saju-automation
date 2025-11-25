@@ -194,22 +194,27 @@
   - [x] 환경 변수 검증 (.gitignore 확인)
 - [x] 빌드 테스트 (`npm run build` 성공)
 
-### Vercel 배포 (사용자 작업 필요)
+### Vercel 배포
 - [x] 배포 가이드 문서 작성 (DEPLOYMENT.md)
-- [ ] Vercel 프로젝트 생성 (사용자 작업)
-- [ ] GitHub 연동 (사용자 작업)
-- [ ] 환경 변수 설정 (사용자 작업)
-  - [ ] GEMINI_API_KEY
-  - [ ] OPENAI_API_KEY
-  - [ ] GOOGLE_SHEET_ID
-  - [ ] GOOGLE_CREDENTIALS
-- [ ] 배포 실행 (사용자 작업)
-- [ ] 도메인 설정 (선택사항)
+- [x] Vercel 프로젝트 생성
+- [x] GitHub 연동
+- [x] 환경 변수 설정
+  - [x] GEMINI_API_KEY
+  - [x] OPENAI_API_KEY
+  - [x] GOOGLE_SHEET_ID
+  - [x] GOOGLE_CREDENTIALS
+- [x] 배포 실행 ✅
 
-### 배포 후 검증 (사용자 작업)
-- [ ] 프로덕션 환경 전체 플로우 테스트
-- [ ] 모니터링 설정 (Vercel Analytics)
-- [ ] 에러 추적 시스템 (선택사항: Sentry)
+**배포 URL**: https://saju-automation-251126.vercel.app
+
+### 배포 후 검증
+- [x] 프로덕션 API 엔드포인트 테스트
+  - [x] GET /api/prompts?product=jonghap (8개 프롬프트 로드 성공)
+  - [x] GET /api/prompts?product=jinro (8개 프롬프트 로드 성공)
+  - [x] POST /api/generate 유효성 검증 (빈 필드 검증 작동)
+  - [x] 잘못된 product 파라미터 검증 작동
+- [ ] 모니터링 설정 (Vercel Analytics) (선택사항)
+- [ ] 에러 추적 시스템 (Sentry) (선택사항)
 
 ### 문서화
 - [x] DEPLOYMENT.md 작성

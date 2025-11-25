@@ -223,10 +223,18 @@ saju-automation/
 
 **상세 가이드**: [DEPLOYMENT.md](./DEPLOYMENT.md) 참조
 
-**배포 후 확인:**
-- 프로덕션 URL에서 모든 기능 테스트
-- Vercel Logs에서 에러 확인
-- 사주 생성 및 프롬프트 편집 기능 검증
+**배포 완료**: ✅
+- **프로덕션 URL**: https://saju-automation-251126.vercel.app
+- **배포 일시**: 2025-11-26
+- **배포 환경**: Vercel
+
+**배포 검증 결과**:
+- ✅ 모든 API 엔드포인트 정상 작동 (4/4 테스트 통과)
+- ✅ Google Sheets 연동 성공
+- ✅ 유효성 검증 정상 작동
+- ✅ 환경 변수 설정 완료
+
+**상세 보고서**: [DEPLOYMENT_VERIFICATION.md](./DEPLOYMENT_VERIFICATION.md)
 
 ## 주의사항
 

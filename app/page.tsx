@@ -52,6 +52,32 @@ export default function Home() {
         }),
       });
 
+      // Content-Type 확인
+      const contentType = response.headers.get('content-type');
+
+      if (!response.ok) {
+        // HTTP 에러 응답 처리
+        if (contentType && contentType.includes('application/json')) {
+          const errorData = await response.json();
+          setError(errorData.error || `서버 오류 (${response.status})`);
+        } else {
+          // HTML 에러 페이지인 경우
+          const textError = await response.text();
+          if (response.status === 504 || textError.includes('FUNCTION_INVOCATION_TIMEOUT')) {
+            setError('타임아웃 발생: Vercel 무료 플랜의 10초 제한으로 인해 사주 생성이 완료되지 못했습니다. Vercel Pro 플랜 업그레이드를 고려해주세요.');
+          } else {
+            setError(`서버 오류 (${response.status}): ${textError.substring(0, 100)}`);
+          }
+        }
+        return;
+      }
+
+      // 정상 응답인데 JSON이 아닌 경우
+      if (!contentType || !contentType.includes('application/json')) {
+        setError('서버 응답 형식 오류: JSON이 아닌 응답을 받았습니다.');
+        return;
+      }
+
       const data: GenerateResponse = await response.json();
 
       if (data.status === 'success') {
@@ -60,7 +86,12 @@ export default function Home() {
         setError(data.error || '사주 생성 중 오류가 발생했습니다.');
       }
     } catch (err: any) {
-      setError(`네트워크 오류: ${err.message}`);
+      // 네트워크 에러 또는 JSON 파싱 에러
+      if (err.name === 'SyntaxError') {
+        setError('응답 파싱 오류: 서버가 잘못된 형식의 데이터를 반환했습니다.');
+      } else {
+        setError(`네트워크 오류: ${err.message}`);
+      }
     } finally {
       setIsGenerating(false);
     }
@@ -207,6 +238,21 @@ export default function Home() {
             {isGenerating ? '사주 생성 중...' : '사주 생성 시작'}
           </Button>
         </form>
+
+        {/* Vercel 타임아웃 경고 */}
+        {!isGenerating && !result && (
+          <div className="mt-6 bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+            <h4 className="text-sm font-semibold text-yellow-800 mb-2">
+              ⚠️ 중요: Vercel 무료 플랜 제한사항
+            </h4>
+            <div className="text-xs text-yellow-700 space-y-1">
+              <p>• Vercel 무료 플랜은 API 응답 시간이 <strong>10초로 제한</strong>됩니다.</p>
+              <p>• 사주 생성은 LLM API 호출로 인해 <strong>1-5분 소요</strong>될 수 있습니다.</p>
+              <p>• 타임아웃 발생 시 Vercel Pro 플랜 업그레이드가 필요합니다 (60초 제한).</p>
+              <p className="mt-2 text-yellow-600">💡 로컬 환경(localhost:3000)에서는 제한 없이 테스트할 수 있습니다.</p>
+            </div>
+          </div>
+        )}
 
         {/* 로딩 상태 */}
         {isGenerating && (
